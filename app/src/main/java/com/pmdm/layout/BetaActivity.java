@@ -1,6 +1,8 @@
 package com.pmdm.layout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -9,9 +11,11 @@ import android.widget.GridLayout;
 
 public class BetaActivity extends ParentActivity {
 
-    Params pars;
+    //    Params pars;
+    SharedPreferences prefs;
+    String clave;
 
-    String[] clave = {null,null,null,null};
+//    String[] clave = {null,null,null,null};
     int n = 0;
 
     @Override
@@ -19,7 +23,10 @@ public class BetaActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beta);
 
-        pars = Params.getInstance();
+//        pars = Params.getInstance();
+
+        prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        clave = "";
 
         GridLayout gl = (GridLayout)findViewById(R.id.GridLayoutBeta);
         ViewTreeObserver vto = gl.getViewTreeObserver();
@@ -37,8 +44,17 @@ public class BetaActivity extends ParentActivity {
     public void onClickNumber(View view) {
         Button button = (Button)view;
         //if (n<4) clave[n++] = button.getText().toString();
-        if (n==0) for(int i=0;i<4;i++) pars.clave[i] = null;
-        if (n<4) pars.clave[n++] = button.getText().toString();
+//        if (n==0) for(int i=0;i<4;i++) pars.clave[i] = null;
+//        if (n<4) pars.clave[n++] = button.getText().toString();
+
+        if (n<4){
+            clave += button.getText().toString() + " ";
+            n++;
+        }
+        if (n==4) clave = clave.substring(0, clave.length()-1);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("clave", clave);
+        editor.commit();
     }
 
     public void onClickNext(View view) {
