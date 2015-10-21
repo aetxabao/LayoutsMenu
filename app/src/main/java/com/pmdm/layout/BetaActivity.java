@@ -11,7 +11,7 @@ import android.widget.GridLayout;
 
 public class BetaActivity extends ParentActivity {
 
-    //    Params pars;
+    //   Params pars;
     SharedPreferences prefs;
     String clave;
 
